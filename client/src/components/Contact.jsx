@@ -69,7 +69,7 @@ const handleSubmit = async (e) => {
     setStatus("Sending...");
 
     const response = await axios.post(
-  "https://portfolio-kfm0.onrender.com/api/contact",
+  "/api/contact",
   formData
 );
     if (response.data.success) {
