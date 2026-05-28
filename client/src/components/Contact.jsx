@@ -69,9 +69,9 @@ function Contact() {
       setStatus("Sending...");
 
       await axios.post(
-        "http://localhost:5000/api/contact",
-        formData
-      );
+  "https://portfolio-kfm0.onrender.com/api/contact",
+  formData
+);
 
       setStatus("Message sent successfully!");
 
