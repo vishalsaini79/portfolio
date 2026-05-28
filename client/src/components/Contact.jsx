@@ -51,27 +51,32 @@ function Contact() {
 
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.message
-    ) {
-      setStatus("Please fill all fields.");
-      return;
-    }
+  if (
+    !formData.name ||
+    !formData.email ||
+    !formData.message
+  ) {
+    setStatus("Please fill all fields.");
+    return;
+  }
 
-    try {
+  try {
 
-      setStatus("Sending...");
+    setStatus("Sending...");
 
-      await axios.post(
-  "https://portfolio-kfm0.onrender.com/api/contact",
-  formData
-);
+    const response = await axios.post(
+      "https://portfolio-kfm0.onrender.com/api/contact",
+      formData,
+      {
+        timeout: 15000,
+      }
+    );
+
+    if (response.data.success) {
 
       setStatus("Message sent successfully!");
 
@@ -81,15 +86,21 @@ function Contact() {
         message: "",
       });
 
-    } catch (error) {
+    } else {
 
-      setStatus(
-        "Something went wrong. Please try again."
-      );
+      setStatus("Failed to send message.");
 
     }
 
-  };
+  } catch (error) {
+
+    setStatus(
+      "Server is waking up... Please try again in a few seconds."
+    );
+
+  }
+
+};
 
   return (
 
