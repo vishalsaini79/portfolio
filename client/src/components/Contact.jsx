@@ -69,13 +69,9 @@ const handleSubmit = async (e) => {
     setStatus("Sending...");
 
     const response = await axios.post(
-      "https://portfolio-kfm0.onrender.com/api/contact",
-      formData,
-      {
-        timeout: 15000,
-      }
-    );
-
+  "https://portfolio-kfm0.onrender.com/api/contact",
+  formData
+);
     if (response.data.success) {
 
       setStatus("Message sent successfully!");
