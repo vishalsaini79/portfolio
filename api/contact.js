@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 
 export default async function handler(req, res) {
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -26,6 +27,7 @@ export default async function handler(req, res) {
   }
 
   try {
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -34,4 +36,32 @@ export default async function handler(req, res) {
       },
     });
 
-    await transporter
+    await transporter.sendMail({
+      from: `"Portfolio Contact" <${process.env.EMAIL}>`,
+      to: process.env.EMAIL,
+      replyTo: email,
+      subject: `New Portfolio Message from ${name}`,
+      html: `
+        <h2>New Portfolio Message</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Message sent successfully",
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send message",
+    });
+
+  }
+
+}
